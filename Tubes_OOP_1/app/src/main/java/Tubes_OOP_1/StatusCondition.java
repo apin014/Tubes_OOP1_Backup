@@ -17,4 +17,6 @@ public enum StatusCondition {
     }
 
     public static void sleep(Monster target) {/* belum kepikiran*/ }
+
+    public static void paralyze(Monster target) {/* Belum kepikiran juga */}
 }
