@@ -1,0 +1,2 @@
+id;moveType;name;elementType;accuracy;priority;ammunition;target;effect
+1;NORMAL;Punch;NORMAL;90;1;10;ENEMY;120
