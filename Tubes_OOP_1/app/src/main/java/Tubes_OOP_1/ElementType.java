@@ -16,5 +16,27 @@ public enum ElementType {
     WATER,
     ELECTRICITY,
     ICE,
-    DRAGON
+    DRAGON;
+
+    public static ElementType parse(String element) {
+        if (element.equals("NORMAL")) {
+            return NORMAL;
+        } else if (element.equals("FIGHTING")) {
+            return FIGHTING;
+        } else if (element.equals("FIRE")) {
+            return FIRE;
+        } else if (element.equals("GRASS")) {
+            return GRASS;
+        } else if (element.equals("WATER")) {
+            return WATER;
+        } else if (element.equals("ELECTRICITY")) {
+            return ELECTRICITY;
+        } else if (element.equals("ICE")) {
+            return ICE;
+        } else if (element.equals("DRAGON")) {
+            return DRAGON;
+        } else {
+            return null;
+        }
+    }
 }

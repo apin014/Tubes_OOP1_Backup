@@ -21,7 +21,9 @@ public class StatusMove extends Move {
     @Override
     public void makeAMove(Monster source, Monster target) {
         if (this.getStatusCondition().equals(StatusCondition.BURN)) {
-            StatusCondition.burn(target);
+            StatusCondition.afflict(target, StatusCondition.BURN);
+        } else if (this.getStatusCondition().equals(StatusCondition.POISON)) {
+            StatusCondition.afflict(target, StatusCondition.POISON);
         }
     }
 }
