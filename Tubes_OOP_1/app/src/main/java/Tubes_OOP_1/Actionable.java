@@ -11,4 +11,5 @@ package Tubes_OOP_1;
 public interface Actionable {
     public void normalMove(Monster source, Monster target);
     public void specialMove(Monster source, Monster target);
+    public void defaultMove(Monster source, Monster target);
 }

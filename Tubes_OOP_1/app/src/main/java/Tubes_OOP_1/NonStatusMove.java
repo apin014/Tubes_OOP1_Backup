@@ -36,6 +36,13 @@ public class NonStatusMove extends Move implements Actionable {
     }
 
     @Override
+    public void defaultMove(Monster source, Monster target) {
+        normalMove(source, target);
+        Double dmg = Math.floor((double) source.getStats().getHealth()/4);
+        source.getCurStats().setHealth(source.getCurStats().getHealth() - dmg);
+    }
+
+    @Override
     public void makeAMove(Monster source, Monster target) {
         if (this.getMoveType().equals(MoveType.NORMAL)) {
             normalMove(source, target);
