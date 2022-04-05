@@ -63,5 +63,9 @@ public abstract class Move {
         return this.target;
     }
 
+    public void decreaseAmmo() {
+        this.ammunition--;
+    }
+
     public abstract void makeAMove(Monster source, Monster target);
 }

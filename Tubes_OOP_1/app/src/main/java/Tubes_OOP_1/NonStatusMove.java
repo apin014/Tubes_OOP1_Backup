@@ -23,14 +23,22 @@ public class NonStatusMove extends Move implements Actionable {
     
     @Override
     public void normalMove(Monster source, Monster target) {
-        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getAttack()/target.getCurStats().getDefense()) + 2) * (0.85 + (1 - 0.85 * (new Random().nextDouble())));
+        double elemEff = 1;
+        for (ElementType elem : target.getElementTypes()) {
+            elemEff = elemEff * (double) ElementEffectivity.getEffectivity(this.getElementType(), elem);
+        }
+        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getAttack()/target.getCurStats().getDefense()) + 2) * (0.85 + (1 - 0.85 * (new Random().nextDouble()))) * elemEff;
         Double dmg = (source.getStatusCondition().equals(StatusCondition.BURN)) ? (Math.floor(rawDmg)/2):(Math.floor(rawDmg));
         target.getCurStats().setHealth(target.getCurStats().getHealth() - dmg);
     }
 
     @Override
     public void specialMove(Monster source, Monster target) {
-        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getSpecialAttack()/target.getCurStats().getSpecialDefense()) + 2) * (0.85 + (1 - 0.85 * (new Random().nextDouble())));
+        double elemEff = 1;
+        for (ElementType elem : target.getElementTypes()) {
+            elemEff = elemEff * (double) ElementEffectivity.getEffectivity(this.getElementType(), elem);
+        }
+        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getSpecialAttack()/target.getCurStats().getSpecialDefense()) + 2) * (0.85 + (1 - 0.85 * (new Random().nextDouble()))) * elemEff;
         Double dmg = (source.getStatusCondition().equals(StatusCondition.BURN)) ? (Math.floor(rawDmg)/2):(Math.floor(rawDmg));
         target.getCurStats().setHealth(target.getCurStats().getHealth() - dmg);
     }
@@ -44,10 +52,15 @@ public class NonStatusMove extends Move implements Actionable {
 
     @Override
     public void makeAMove(Monster source, Monster target) {
-        if (this.getMoveType().equals(MoveType.NORMAL)) {
-            normalMove(source, target);
-        } else if (this.getMoveType().equals(MoveType.SPECIAL)) {
-            specialMove(source, target);
+        if (!this.getName().equals("Default Move")) {
+            if (this.getMoveType().equals(MoveType.NORMAL)) {
+                normalMove(source, target);
+            } else if (this.getMoveType().equals(MoveType.SPECIAL)) {
+                specialMove(source, target);
+            }
+            this.decreaseAmmo();
+        } else {
+            defaultMove(source, target);
         }
     }
 }

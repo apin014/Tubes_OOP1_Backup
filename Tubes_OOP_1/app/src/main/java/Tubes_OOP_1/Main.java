@@ -18,7 +18,7 @@ public class Main {
                 } else if (opt == 3) {
                     end = true;
                 } else {
-                    throw new Exception("Option not available");
+                    throw new Exception("Option not available!");
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

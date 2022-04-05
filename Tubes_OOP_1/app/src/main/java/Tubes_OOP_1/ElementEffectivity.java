@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ElementEffectivity {
     public static HashMap<ElementType, Integer> fromNormal, fromFighting, fromFire, fromGrass, fromWater, fromElectricity, fromIce, fromDragon;
-    public static void add(List<String[]> config) {
+    public static void fill(List<String[]> config) {
         for (String[] row : config) {
             if (row[0].equals("NORMAL")) {
                 fromNormal.put(ElementType.parse(row[1]), Integer.parseInt(row[2]));
@@ -25,5 +25,25 @@ public class ElementEffectivity {
             }
         }
     }
-    
+    public static Integer getEffectivity(ElementType attElmt, ElementType rcvElmt) {
+        if (attElmt.equals(ElementType.NORMAL)) {
+            return fromNormal.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.FIGHTING)) {
+            return fromFighting.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.FIRE)) {
+            return fromFire.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.GRASS)) {
+            return fromGrass.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.WATER)) {
+            return fromWater.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.ELECTRICITY)) {
+            return fromElectricity.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.ICE)) {
+            return fromIce.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.DRAGON)) {
+            return fromDragon.get(rcvElmt);
+        } else {
+            return null;
+        }
+    }
 }

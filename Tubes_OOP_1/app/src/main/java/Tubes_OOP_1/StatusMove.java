@@ -24,6 +24,12 @@ public class StatusMove extends Move {
             StatusCondition.afflict(target, StatusCondition.BURN);
         } else if (this.getStatusCondition().equals(StatusCondition.POISON)) {
             StatusCondition.afflict(target, StatusCondition.POISON);
+        } else if (this.getStatusCondition().equals(StatusCondition.SLEEP)) {
+            StatusCondition.afflict(target, StatusCondition.SLEEP);
+        } else if (this.getStatusCondition().equals(StatusCondition.PARALYZE)) {
+            StatusCondition.afflict(target, StatusCondition.PARALYZE);
+        } else {
+            
         }
     }
 }
