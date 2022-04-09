@@ -16,7 +16,7 @@ public class Monster {
     private Stats curStats;
     private List<Move> moves;
     private StatusCondition statusCond;
-    public static List<Monster> monsterPool;
+    private static List<Monster> monsterPool;
     static {
         Monster.monsterPool = new ArrayList<>();
     }
@@ -32,10 +32,10 @@ public class Monster {
         this.baseStats = new Stats(statsReal[0], statsReal[1], statsReal[2], statsReal[3], statsReal[4], statsReal[5]);
         this.curStats = new Stats(statsReal[0], statsReal[1], statsReal[2], statsReal[3], statsReal[4], statsReal[5]);
         this.moves = new ArrayList<>();
-        this.moves.add(Move.movePool.get(0));
+        this.moves.add(Move.getFromPool(0));
         for (String move : array[4].split(",")) {
             int id = Integer.parseInt(move);
-            this.moves.add(Move.movePool.get(id));
+            this.moves.add(Move.getFromPool(id));
         }
     }
 
@@ -76,5 +76,12 @@ public class Monster {
 
     public static boolean poolEmpty() {
         return (Monster.monsterPool.isEmpty());
+    }
+    public static Monster getFromPool(int id) {
+        return Monster.monsterPool.get(id);
+    }
+
+    public static int getPoolSize() {
+        return Monster.monsterPool.size();
     }
 }

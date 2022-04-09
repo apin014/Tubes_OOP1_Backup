@@ -17,10 +17,12 @@ public class Initializer {
         ElementEffectivity.pool(config);
 
         reader = new CSVReader(move, ";");
+        reader.setSkipHeader(true);
         config = reader.read();
         Move.pool(config);
 
         reader = new CSVReader(monster, ";");
+        reader.setSkipHeader(true);
         config = reader.read();
         Monster.pool(config);
     }

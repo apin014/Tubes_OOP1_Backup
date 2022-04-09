@@ -17,7 +17,7 @@ public abstract class Move {
     private Integer accuracy, priority, ammunition;
     private Target target;
 
-    public static List<Move> movePool;
+    private static List<Move> movePool;
     static {
         Move.movePool = new ArrayList<>();
         Move def = new NonStatusMove(0, MoveType.NORMAL, "Default", ElementType.NORMAL, 100, 0, Integer.MAX_VALUE, Target.ENEMY, 50.0);
@@ -108,6 +108,10 @@ public abstract class Move {
 
     public static boolean poolEmpty() {
         return (Move.movePool.isEmpty());
+    }
+
+    public static Move getFromPool(int id) {
+        return Move.movePool.get(id);
     }
 
     public abstract void makeAMove(Monster source, Monster target);
