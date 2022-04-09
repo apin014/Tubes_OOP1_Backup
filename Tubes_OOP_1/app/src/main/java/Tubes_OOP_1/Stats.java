@@ -10,6 +10,7 @@ package Tubes_OOP_1;
  */
 public class Stats {
     private Double healthPoint, attack, defense, specialAttack, specialDefense, speed;
+    private Integer skipTurn;
     
     public Stats(Double healthPoint, Double attack, Double defense, Double specialAttack, Double specialDefense, Double speed) {
         this.healthPoint = healthPoint;
@@ -18,6 +19,7 @@ public class Stats {
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
         this.speed = speed;
+        this.skipTurn = 0;
     }
     
     public Double getHealth() {
@@ -67,6 +69,19 @@ public class Stats {
     public void setSpeed(Double speed) {
         this.speed = speed;
     }
+
+    public int getSkipTurn() {
+        return this.skipTurn;
+    }
+
+    public void setSkipTurn(int skipTurn) {
+        this.skipTurn = skipTurn;
+    }
+
+    public void decreaseSkipTurn() {
+        this.skipTurn--;
+    }
+
     public static Double[] parseStringArray(String[] array) {
         Double[] realArray = new Double[array.length];
         for (int i = 0; i < array.length; i++) {

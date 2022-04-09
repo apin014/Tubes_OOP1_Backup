@@ -20,6 +20,9 @@ public class StatusMove extends Move {
 
     @Override
     public void makeAMove(Monster source, Monster target) {
+        if (this.getTarget().equals(Target.OWN)) {
+            target = source;
+        }
         if (this.getStatusCondition().equals(StatusCondition.BURN)) {
             StatusCondition.afflict(target, StatusCondition.BURN);
         } else if (this.getStatusCondition().equals(StatusCondition.POISON)) {
@@ -29,7 +32,12 @@ public class StatusMove extends Move {
         } else if (this.getStatusCondition().equals(StatusCondition.PARALYZE)) {
             StatusCondition.afflict(target, StatusCondition.PARALYZE);
         } else {
-            
+            target.getCurStats().setHealth(target.getStats().getHealth() * (1 + this.statsEffects[0]));
+            target.getCurStats().setAttack(target.getCurStats().getAttack() + this.statsEffects[1]);
+            target.getCurStats().setDefense(target.getCurStats().getDefense() + this.statsEffects[2]);
+            target.getCurStats().setSpecialAttack(target.getCurStats().getSpecialAttack() + this.statsEffects[3]);
+            target.getCurStats().setSpecialDefense(target.getCurStats().getSpecialDefense() + this.statsEffects[4]);
+            target.getCurStats().setSpeed(target.getCurStats().getSpeed() + this.statsEffects[5]);
         }
     }
 }

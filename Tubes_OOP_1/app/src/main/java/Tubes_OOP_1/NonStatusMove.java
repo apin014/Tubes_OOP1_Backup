@@ -52,6 +52,9 @@ public class NonStatusMove extends Move implements Actionable {
 
     @Override
     public void makeAMove(Monster source, Monster target) {
+        if (this.getTarget().equals(Target.OWN)) {
+            target = source;
+        }
         if (!this.getName().equals("Default Move")) {
             if (this.getMoveType().equals(MoveType.NORMAL)) {
                 normalMove(source, target);
