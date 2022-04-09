@@ -67,4 +67,11 @@ public class Stats {
     public void setSpeed(Double speed) {
         this.speed = speed;
     }
+    public static Double[] parseStringArray(String[] array) {
+        Double[] realArray = new Double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            realArray[i] = Double.parseDouble(array[i]);
+        }
+        return realArray;
+    }
 }

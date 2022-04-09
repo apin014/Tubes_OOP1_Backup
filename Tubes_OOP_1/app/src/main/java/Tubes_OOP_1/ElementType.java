@@ -14,7 +14,7 @@ public enum ElementType {
     FIRE,
     GRASS,
     WATER,
-    ELECTRICITY,
+    ELECTRIC,
     ICE,
     DRAGON;
 
@@ -29,8 +29,8 @@ public enum ElementType {
             return GRASS;
         } else if (element.equals("WATER")) {
             return WATER;
-        } else if (element.equals("ELECTRICITY")) {
-            return ELECTRICITY;
+        } else if (element.equals("ELECTRIC")) {
+            return ELECTRIC;
         } else if (element.equals("ICE")) {
             return ICE;
         } else if (element.equals("DRAGON")) {

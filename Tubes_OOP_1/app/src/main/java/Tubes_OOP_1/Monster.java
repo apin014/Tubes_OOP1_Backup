@@ -16,20 +16,34 @@ public class Monster {
     private Stats curStats;
     private List<Move> moves;
     private StatusCondition statusCond;
+    public static List<Monster> monsterPool;
+    static {
+        Monster.monsterPool = new ArrayList<>();
+    }
 
-    public Monster(String[] config) {
-        this.name = config[1];
+    public Monster(String[] array) {
+        this.name = array[1];
         this.elementTypes = new ArrayList<>();
-        for (String s : config[2].split(",")) {
-            this.elementTypes.add(ElementType.parse(s));
+        for (String element : array[2].split(",")) {
+            this.elementTypes.add(ElementType.parse(element));
         }
-        String[] stats = config[3].split(",");
-        Double[] statsReal = new Double[6];
-        for (int i = 0; i < 6; i++) {
-            statsReal[i] = Double.parseDouble(stats[i]);
-        }
+        String[] stats = array[3].split(",");
+        Double[] statsReal = Stats.parseStringArray(stats);
         this.baseStats = new Stats(statsReal[0], statsReal[1], statsReal[2], statsReal[3], statsReal[4], statsReal[5]);
         this.curStats = new Stats(statsReal[0], statsReal[1], statsReal[2], statsReal[3], statsReal[4], statsReal[5]);
+        this.moves = new ArrayList<>();
+        this.moves.add(Move.movePool.get(0));
+        for (String move : array[4].split(",")) {
+            int id = Integer.parseInt(move);
+            this.moves.add(Move.movePool.get(id));
+        }
+    }
+
+    public static void pool(List<String[]> config) {
+        Monster.monsterPool.add(null);
+        for (String[] array : config) {
+            Monster.monsterPool.add(new Monster(array));
+        }
     }
 
     public String getName() {
@@ -58,5 +72,9 @@ public class Monster {
 
     public void setStatusCondition(StatusCondition statusCond) {
         this.statusCond = statusCond;
+    }
+
+    public static boolean poolEmpty() {
+        return (Monster.monsterPool.isEmpty());
     }
 }

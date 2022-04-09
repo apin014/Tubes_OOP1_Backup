@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Tubes_OOP_1;
+import java.util.*;
 
 /**
  *
@@ -16,12 +17,29 @@ public abstract class Move {
     private Integer accuracy, priority, ammunition;
     private Target target;
 
-    enum Target {
+    public static List<Move> movePool;
+    static {
+        Move.movePool = new ArrayList<>();
+        Move def = new NonStatusMove(0, MoveType.NORMAL, "Default", ElementType.NORMAL, 100, 0, Integer.MAX_VALUE, Target.ENEMY, 50.0);
+        movePool.add(def);
+    }
+
+    protected enum Target {
         ENEMY, OWN;
+
+        protected static Target parse(String s) {
+            if (s.equals("ENEMY")) {
+                return ENEMY;
+            } else if (s.equals("OWN")) {
+                return OWN;
+            } else {
+                return null;
+            }
+        }
     }
     
     public Move(int id, MoveType moveType, String name, ElementType elementType, Integer accuracy, Integer priority, Integer ammunition, Target target) {
-        this.id  = id;
+        this.id = id;
         this.moveType = moveType;
         this.name = name;
         this.elementType = elementType;
@@ -29,6 +47,27 @@ public abstract class Move {
         this.priority = priority;
         this.ammunition = ammunition;
         this.target = target;
+    }
+    public static void pool(List<String[]> config) {
+        for (String[] array : config) {
+            int id = Integer.parseInt(array[0]);
+            MoveType moveType = MoveType.parse(array[1]);
+            String name = array[2];
+            ElementType elementType = ElementType.parse(array[3]);
+            Integer accuracy = Integer.parseInt(array[4]);
+            Integer priority = Integer.parseInt(array[5]);
+            Integer ammunition = Integer.parseInt(array[6]);
+            Target target = Target.parse(array[7]);
+            if (moveType.equals(MoveType.STATUS)) {
+                StatusCondition statusCondition = StatusCondition.parse(array[8]);
+                String[] statsEffects = array[9].split(",");
+                Double[] realStatsEffects = Stats.parseStringArray(statsEffects);
+                Move.movePool.add(new StatusMove(id, moveType, name, elementType, accuracy, priority, ammunition, target, statusCondition, realStatsEffects));
+            } else {
+                Double basePower = Double.parseDouble(array[8]);
+                Move.movePool.add(new NonStatusMove(id, moveType, name, elementType, accuracy, priority, ammunition, target, basePower));
+            }
+        }
     }
 
     public int getId() {
@@ -65,6 +104,10 @@ public abstract class Move {
 
     public void decreaseAmmo() {
         this.ammunition--;
+    }
+
+    public static boolean poolEmpty() {
+        return (Move.movePool.isEmpty());
     }
 
     public abstract void makeAMove(Monster source, Monster target);

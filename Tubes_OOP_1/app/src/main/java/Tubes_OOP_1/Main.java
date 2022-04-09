@@ -1,8 +1,21 @@
 package Tubes_OOP_1;
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        try {
+            Initializer.initialize(args[0], args[1], args[2]);
+            if (ElementEffectivity.poolEmpty() || Move.poolEmpty() || Monster.poolEmpty()) {
+                throw new Exception("Empty pool detected!");
+            }
+        } catch(IOException e) {
+            System.err.println(e);
+            System.exit(-1);
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
         System.out.println("| Main Menu |");
         System.out.printf("[1] Start Game%n[2] Help%n[3] Exit%n");
         Scanner scanner = new Scanner(System.in);
