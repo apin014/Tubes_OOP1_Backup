@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ElementEffectivity {
     public static HashMap<ElementType, Integer> fromNormal, fromFighting, fromFire, fromGrass, fromWater, fromElectricity, fromIce, fromDragon;
-    public static void fill(List<String[]> config) {
+    public static void pool(List<String[]> config) {
         for (String[] row : config) {
             if (row[0].equals("NORMAL")) {
                 fromNormal.put(ElementType.parse(row[1]), Integer.parseInt(row[2]));

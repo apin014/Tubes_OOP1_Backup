@@ -17,6 +17,21 @@ public class Monster {
     private List<Move> moves;
     private StatusCondition statusCond;
 
+    public Monster(String[] config) {
+        this.name = config[1];
+        this.elementTypes = new ArrayList<>();
+        for (String s : config[2].split(",")) {
+            this.elementTypes.add(ElementType.parse(s));
+        }
+        String[] stats = config[3].split(",");
+        Double[] statsReal = new Double[6];
+        for (int i = 0; i < 6; i++) {
+            statsReal[i] = Double.parseDouble(stats[i]);
+        }
+        this.baseStats = new Stats(statsReal[0], statsReal[1], statsReal[2], statsReal[3], statsReal[4], statsReal[5]);
+        this.curStats = new Stats(statsReal[0], statsReal[1], statsReal[2], statsReal[3], statsReal[4], statsReal[5]);
+    }
+
     public String getName() {
         return this.name;
     }

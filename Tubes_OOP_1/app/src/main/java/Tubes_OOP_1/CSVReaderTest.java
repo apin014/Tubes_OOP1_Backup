@@ -13,7 +13,7 @@ import Tubes_OOP_1.util.CSVReader;
  */
 public class CSVReaderTest {
     public static void main(String[] args) {
-        File csv = new File("E:\\Repository\\Tubes_OOP1_Backup\\Tubes_OOP_1\\app\\src\\main\\java\\resources\\movePool.csv");
+        File csv = new File("E:\\Repos\\MyToobes\\Tubes_OOP1_Backup\\Tubes_OOP_1\\app\\src\\main\\java\\resources\\monsterPool.csv");
         CSVReader reader = new CSVReader(csv, ";");
         reader.setSkipHeader(true);
         try {
