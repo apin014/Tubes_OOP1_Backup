@@ -114,5 +114,6 @@ public abstract class Move {
         return Move.movePool.get(id);
     }
 
-    public abstract void makeAMove(Monster source, Monster target);
+    public abstract void makeAMove(Trainer sourceMaster, Monster source, Monster target);
+    public abstract void printMove();
 }

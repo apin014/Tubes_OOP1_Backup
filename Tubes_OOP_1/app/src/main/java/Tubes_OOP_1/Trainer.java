@@ -5,14 +5,17 @@ public class Trainer {
     private String name;
     private List<Monster> monsters;
     private Monster curMonster;
+    private int playerMove, playerSwitch;
 
     public Trainer(String name) {
         this.name = name;
         this.monsters = new ArrayList<>();
         for(int i = 0; i < 6; i++) {
-            this.monsters.add(Monster.getFromPool(new Random().nextInt(Monster.getPoolSize()-1) + 1));
+            this.monsters.add(Monster.getFromPool(new SplittableRandom().nextInt(1, Monster.getPoolSize())));
         }
-        this.curMonster = monsters.get(0);
+        this.curMonster = monsters.remove(0);
+        this.playerMove = -1;
+        this.playerSwitch = -1;
     }
 
     public String getName() {
@@ -27,8 +30,24 @@ public class Trainer {
         return this.curMonster;
     }
 
+    public int getMove() {
+        return this.playerMove;
+    }
+
+    public void setMove(int playerMove) {
+        this.playerMove = playerMove;
+    }
+
+    public int getSwitch() {
+        return this.playerSwitch;
+    }
+
+    public void setSwitch(int playerSwitch) {
+        this.playerSwitch = playerSwitch;
+    }
+
     public void switchMonster(int localMonsterId) {
-        System.out.printf("%s switched %s with %s\n", this.getName(), this.getCurMonster().getName(), this.getMonsters().get(localMonsterId));
-        this.curMonster = this.getMonsters().get(localMonsterId);
+        System.out.printf("%s switched %s with %s\n", this.getName(), this.getCurMonster().getName(), this.getMonsters().get(localMonsterId).getName());
+        this.curMonster = this.getMonsters().remove(localMonsterId);
     }
 }

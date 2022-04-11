@@ -14,19 +14,22 @@ public class Main {
             System.err.println(e);
             System.exit(-1);
         } catch(Exception e) {
+            System.err.println(e);
             e.printStackTrace();
             System.exit(-1);
         }
-        System.out.println("| Main Menu |");
-        System.out.printf("[1] Start Game%n[2] Help%n[3] Exit%n");
         Scanner scanner = new Scanner(System.in);
         boolean end = false;
         while (!end) {
+            System.out.println("| Main Menu |");
+            System.out.printf("[1] Start Game%n[2] Help%n[3] Exit%n");
             System.out.print(">> ");
             int opt = scanner.nextInt();
             try {
                 if (opt == 1) {
-                    System.out.println("Game started!");
+                    GameMaster gm = new GameMaster();
+                    Scanner console = new Scanner(System.in);
+                    gm.game(console);
                 } else if (opt == 2) {
                     System.out.println("This is where the rule of the game is displayed!");
                 } else if (opt == 3) {
@@ -34,6 +37,9 @@ public class Main {
                 } else {
                     throw new Exception("Option not available!");
                 }
+            } catch (IndexOutOfBoundsException e) {
+                System.err.println(e);
+                e.printStackTrace();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

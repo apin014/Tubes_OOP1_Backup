@@ -89,4 +89,8 @@ public class Stats {
         }
         return realArray;
     }
+
+    public void printStats() {
+        System.out.printf("| Health: %.1f | Attack: %.1f | Defense: %.1f | Special Attack: %.1f | Special Defense: %.1f | Speed: %.1f\n", this.healthPoint, this.attack, this.defense, this.specialAttack, this.specialDefense, this.speed);
+    }
 }
