@@ -152,15 +152,19 @@ public class GameMaster {
                 if (opt == 1) {
                     System.out.printf("What is %s's %s going to do?\n", player.getName(), player.getCurMonster().getName());
                     for (int i = 0; i < player.getCurMonster().getMoves().size(); i++) {
-                        if (player.getCurMonster().getMoves().get(i).getAmmunition() > 0) {
-                            System.out.printf("[%d] ", i);
-                            player.getCurMonster().getMoves().get(i).printMove();
-                        }
+                        System.out.printf("[%d] ", i);
+                        player.getCurMonster().getMoves().get(i).printMove();
                     }
                     System.out.println("[-1] Cancel");
                     System.out.print(">> ");
                     player.setMove(console.nextInt());
-                    if (player.getMove() != -1) endTurn = true;
+                    if (player.getMove() != -1) {
+                        if  (player.getMove() >= 0 && player.getMove() < player.getCurMonster().getMoves().size()) {
+                            if (player.getCurMonster().getMoves().get(player.getMove()).getAmmunition() > 0) endTurn = true;
+                            else { System.out.println("Cannot perform move! [Zero ammunition]"); endTurn = false; }
+                        }
+                        else { System.out.println("Selection not valid!"); endTurn = false; }
+                    }
                     else endTurn = false;
                 } else if (opt == 2) {
                     if (player.getMonsters().size() > 0) {
@@ -174,7 +178,10 @@ public class GameMaster {
                         System.out.println("[-1] Cancel");
                         System.out.print(">> ");
                         player.setSwitch(console.nextInt());;
-                        if (player.getSwitch() != -1) endTurn = true;
+                        if (player.getSwitch() != -1) {
+                            if  (player.getSwitch() >= 0 && player.getSwitch() < player.getMonsters().size()) endTurn = true;
+                            else { System.out.println("Selection not valid!"); endTurn = false; }
+                        } 
                         else endTurn = false;
                     }
                     else {
