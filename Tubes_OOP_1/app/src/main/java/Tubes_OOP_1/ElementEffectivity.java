@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ElementEffectivity {
-    public static HashMap<ElementType, Double> fromNormal, fromFighting, fromFire, fromGrass, fromWater, fromElectric, fromIce, fromDragon;
+    public static HashMap<ElementType, Double> fromNormal, fromFighting, fromFire, fromGrass, fromWater, fromElectric, fromIce, fromDragon, fromFlying, fromPoison, fromGround, fromRock, fromBug, fromGhost, fromSteel, fromPsychic, fromDark;
     public static void pool(List<String[]> config) {
         fromNormal = new HashMap<>();
         fromFighting = new HashMap<>();
@@ -13,6 +13,15 @@ public class ElementEffectivity {
         fromElectric = new HashMap<>();
         fromIce = new HashMap<>();
         fromDragon = new HashMap<>();
+        fromFlying = new HashMap<>();
+        fromPoison = new HashMap<>();
+        fromGround = new HashMap<>();
+        fromRock = new HashMap<>();
+        fromBug = new HashMap<>();
+        fromGhost = new HashMap<>();
+        fromSteel = new HashMap<>();
+        fromPsychic = new HashMap<>();
+        fromDark = new HashMap<>();
         for (String[] row : config) {
             if (row[0].equals("NORMAL")) {
                 fromNormal.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
@@ -30,6 +39,24 @@ public class ElementEffectivity {
                 fromIce.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
             } else if (row[0].equals("DRAGON")) {
                 fromDragon.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("FLYING")) {
+                fromFlying.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("POISON")) {
+                fromPoison.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("GROUND")) {
+                fromGround.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("ROCK")) {
+                fromRock.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("BUG")) {
+                fromBug.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("GHOST")) {
+                fromGhost.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("STEEL")) {
+                fromSteel.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("PSYCHIC")) {
+                fromPsychic.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
+            } else if (row[0].equals("DARK")) {
+                fromDark.put(ElementType.parse(row[1]), Double.parseDouble(row[2]));
             }
         }
     }
@@ -50,8 +77,26 @@ public class ElementEffectivity {
             return fromIce.get(rcvElmt);
         } else if (attElmt.equals(ElementType.DRAGON)) {
             return fromDragon.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.FLYING)) {
+            return fromFlying.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.POISON)) {
+            return fromPoison.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.GROUND)) {
+            return fromGround.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.ROCK)) {
+            return fromRock.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.BUG)) {
+            return fromBug.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.GHOST)) {
+            return fromGhost.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.STEEL)) {
+            return fromSteel.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.PSYCHIC))  {
+            return fromPsychic.get(rcvElmt);
+        } else if (attElmt.equals(ElementType.DARK)) {
+            return fromDark.get(rcvElmt);
         } else {
-            return null;
+            return (double) 1;
         }
     }
 
