@@ -48,7 +48,7 @@ public class Trainer {
 
     public void switchMonster(int localMonsterId) {
         System.out.printf("%s switched %s with %s\n", this.getName(), this.getCurMonster().getName(), this.getMonsters().get(localMonsterId).getName());
-        this.getMonsters().add(this.getCurMonster());
+        if (this.getCurMonster().getCurStats().getHealth() > 0) this.getMonsters().add(this.getCurMonster());
         this.curMonster = this.getMonsters().remove(localMonsterId);
     }
 }

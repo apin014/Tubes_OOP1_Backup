@@ -320,7 +320,7 @@ public class GameMaster {
         System.out.printf("%s's %s's health has dropped to zero...\n", player.getName(), player.getCurMonster().getName());
         System.out.printf("Which monster would %s like to switch %s with?\n", player.getName(), player.getCurMonster().getName());
         for (int i = 0; i < player.getMonsters().size(); i++) {
-            if (!player.getMonsters().get(i).equals(player.getCurMonster()) && player.getMonsters().get(i).getCurStats().getHealth() > 0) {
+            if (player.getMonsters().get(i).getCurStats().getHealth() > 0) {
                 System.out.printf("[%d] %s", i, player.getMonsters().get(i).getName());
                 player.getMonsters().get(i).getCurStats().printStats();
             }
