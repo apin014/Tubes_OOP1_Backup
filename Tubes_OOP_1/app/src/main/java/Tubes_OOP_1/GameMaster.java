@@ -27,7 +27,17 @@ public class GameMaster {
         createMonsterInfo(player1, player2, idSet);
         System.out.printf("Game starting with %s as PLAYER 1 and %s as PLAYER 2\n", player1.getName(), player2.getName());
         System.out.printf("%s's starting monster is %s\n", player1.getName(), player1.getCurMonster().getName());
+        System.out.printf("Monsters in %s's deck are:\n", player1.getName());
+        for (Monster monster : player1.getMonsters()) {
+            System.out.printf("@ %s\n", monster.getName());
+        }
+        System.out.println("");
         System.out.printf("%s's starting monster is %s\n", player2.getName(), player2.getCurMonster().getName());
+        System.out.printf("Monsters in %s's deck are:\n", player2.getName());
+        for (Monster monster : player2.getMonsters()) {
+            System.out.printf("@ %s\n", monster.getName());
+        }
+        System.out.println("");
         Stopper gameEnd = new Stopper(false);
         while (!gameEnd.hasEnded()) {
             player1.setMove(-1);
@@ -285,6 +295,7 @@ public class GameMaster {
     }
 
     public void printMonsterInfo(SortedSet<Integer> idSet) {
+        System.out.println("");
         System.out.println("Monsters present during this game are:");
         for (Integer id : idSet) {
             for (Monster monster : Monster.getPool()) {
@@ -296,9 +307,11 @@ public class GameMaster {
                 }
             }
         }
+        System.out.println("");
     }
     
     public void printGameInfo(Trainer player1, Trainer player2) {
+        System.out.println("");
         System.out.printf("It is now %s's turn\n%s is partnering with %s as their monster in this turn\nCurrent stats: ", player1.getName(), player1.getName(), player1.getCurMonster().getName());
         player1.getCurMonster().getCurStats().printStats();
         System.out.printf("Monster(s) still in %s's deck:\n", player1.getName());
@@ -311,5 +324,6 @@ public class GameMaster {
         if (player2.getMove() != -1) {
             System.out.printf("%s has taken their turn, choosing their %s to perform %s move", player2.getName(), player2.getCurMonster().getName(), player2.getCurMonster().getMoves().get(player2.getMove()).getName());
         }
+        System.out.println("");
     }
 } 

@@ -3,6 +3,8 @@
 This is a CLI-based game involving two monster Trainers,
 THAT IS YOU, PLAYER!
 that compete to-the-death utilizing 6 each (12 in to total) randomly selected monsters from an established pool of monsters.
+Whoever's left with at least 1 monster still alive when the other player's had all of their monsters killed,
+then they will be the WINNER!
 
 | How to Play? |
 
@@ -16,6 +18,15 @@ Whenever you see a menu of options laid out to you, such as:
 Just input the number corresponding to the option that you want to select on the ('>>') prompt.
 The game will then take that input and translate it to the action that each option represents.
 
-Have fun! And remember, whenever a monster of yours die, 
+Each player will take turn and each turn the player is free to choose whether to make their monster perform a move,
+switch the current monster with another monster in their deck, or see certain infos about the game being played.
+
+If a player chose to switch out their monster, that will be done first before any move from the other player's monster
+is performed. If both players chose to move their monsters, whichever has the highest priority, if not then whichever's the fastest,
+if not then any monster at random, will perform the move first.
+
+Have fun! And remember, whenever a monster of yours dies, 
 
 THEY ARE DEAD FOREVER...
+HOPE YOU CAN SLEEP WELL KNOWING THEIR BLOODS ARE IN YOUR HANDS,
+MURDERER!

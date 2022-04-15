@@ -49,12 +49,14 @@ public class StatusMove extends Move {
                         StatusCondition.afflict(target.getCurMonster(), StatusCondition.PARALYZE);
                     } 
                 } else {
-                    target.getCurMonster().getCurStats().setHealth(target.getCurMonster().getStats().getHealth() * (1 + ((double) this.statsEffects[0]/100)));
-                    target.getCurMonster().getCurStats().setAttack(target.getCurMonster().getCurStats().getAttack() + this.statsEffects[1]);
-                    target.getCurMonster().getCurStats().setDefense(target.getCurMonster().getCurStats().getDefense() + this.statsEffects[2]);
-                    target.getCurMonster().getCurStats().setSpecialAttack(target.getCurMonster().getCurStats().getSpecialAttack() + this.statsEffects[3]);
-                    target.getCurMonster().getCurStats().setSpecialDefense(target.getCurMonster().getCurStats().getSpecialDefense() + this.statsEffects[4]);
-                    target.getCurMonster().getCurStats().setSpeed(target.getCurMonster().getCurStats().getSpeed() + this.statsEffects[5]);
+                    Double healthIncrease = Math.floor(target.getCurMonster().getStats().getHealth() * ((double) this.statsEffects[0]/100));
+                    Double health = (target.getCurMonster().getCurStats().getHealth() + healthIncrease) <= target.getCurMonster().getStats().getHealth() ? target.getCurMonster().getCurStats().getHealth() + healthIncrease : target.getCurMonster().getStats().getHealth();
+                    target.getCurMonster().getCurStats().setHealth(health);
+                    target.getCurMonster().getCurStats().setAttack(Math.floor(target.getCurMonster().getCurStats().getAttack() * Stats.convertToBuff(this.statsEffects[1])));
+                    target.getCurMonster().getCurStats().setDefense(Math.floor(target.getCurMonster().getCurStats().getDefense() * Stats.convertToBuff(this.statsEffects[2])));
+                    target.getCurMonster().getCurStats().setSpecialAttack(Math.floor(target.getCurMonster().getCurStats().getSpecialAttack() * Stats.convertToBuff(this.statsEffects[3])));
+                    target.getCurMonster().getCurStats().setSpecialDefense(Math.floor(target.getCurMonster().getCurStats().getSpecialDefense() * Stats.convertToBuff(this.statsEffects[4])));
+                    target.getCurMonster().getCurStats().setSpeed(Math.floor(target.getCurMonster().getCurStats().getSpeed() * Stats.convertToBuff(this.statsEffects[5])));
                 }
             }
             else {
@@ -69,7 +71,7 @@ public class StatusMove extends Move {
     @Override
     public void printMove() {
         if (this.statusCond == null) {
-            System.out.printf("%s (%d left) | Type: %s | Element: %s | Accuracy: %d | Priority: %d | Target: %s | Status Condition: -\n", this.getName(), this.getAmmunition(), this.getMoveType().name(), this.getElementType().name(), this.getAccuracy(), this.getPriority(), this.getTarget().name());
+            System.out.printf("%s (%d left) | Type: %s | Element: %s | Accuracy: %d | Priority: %d | Target: %s | Stats Multiplier: <Health: %f> <Attack: %f> <Defense: %f> <%Special Attack: %f> <Special Defense: %f> <Speed: %f>\n", this.getName(), this.getAmmunition(), this.getMoveType().name(), this.getElementType().name(), this.getAccuracy(), this.getPriority(), this.getTarget().name(), (double) this.statsEffects[0]/100, Stats.convertToBuff(this.statsEffects[1]), Stats.convertToBuff(this.statsEffects[2]), Stats.convertToBuff(this.statsEffects[3]), Stats.convertToBuff(this.statsEffects[4]), Stats.convertToBuff(this.statsEffects[5]));
         }
         else {
             System.out.printf("%s (%d left) | Type: %s | Element: %s | Accuracy: %d | Priority: %d | Target: %s | Status Condition: %s\n", this.getName(), this.getAmmunition(), this.getMoveType().name(), this.getElementType().name(), this.getAccuracy(), this.getPriority(), this.getTarget().name(), this.getStatusCondition().name());

@@ -93,4 +93,28 @@ public class Stats {
     public void printStats() {
         System.out.printf("| Health: %.1f | Attack: %.1f | Defense: %.1f | Special Attack: %.1f | Special Defense: %.1f | Speed: %.1f\n", this.healthPoint, this.attack, this.defense, this.specialAttack, this.specialDefense, this.speed);
     }
+
+    public static Double convertToBuff(Double stat) {
+        if (stat == -4) {
+            return ((double) 2/6);
+        } else if (stat == -3) {
+            return ((double) 2/5);
+        } else if (stat == -2) {
+            return ((double) 2/4);
+        } else if (stat == -1) {
+            return ((double) 2/3);
+        } else if (stat == 0) {
+            return (double) 1;
+        } else if (stat == 1) {
+            return ((double) 3/2);
+        } else if (stat == 2) {
+            return ((double) 4/2);
+        } else if (stat == 3) {
+            return ((double) 5/2);
+        } else if (stat == 4) {
+            return ((double) 6/2);
+        } else {
+            return (double) 1;
+        }
+    }
 }

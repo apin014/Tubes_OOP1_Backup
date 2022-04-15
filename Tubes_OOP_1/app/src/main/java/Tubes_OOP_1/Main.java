@@ -21,6 +21,19 @@ public class Main {
             e.printStackTrace();
             System.exit(-1);
         }
+        try {
+            String bannerPath = System.getProperty("user.dir") + "\\src\\main\\java\\resources\\banner.txt";
+            File banner = new File(bannerPath);
+            Scanner reader = new Scanner(banner);
+            System.out.println("");
+            while (reader.hasNextLine()) {
+                System.out.println(reader.nextLine());
+            }
+            System.out.println("");
+            reader.close();
+        } catch (FileNotFoundException e) {
+            // do nothing
+        }
         Scanner scanner = new Scanner(System.in);
         boolean end = false;
         while (!end) {
