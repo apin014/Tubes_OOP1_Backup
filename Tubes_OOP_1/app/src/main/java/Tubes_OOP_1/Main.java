@@ -5,9 +5,9 @@ import Tubes_OOP_1.util.Initializer;
 
 public class Main {
     public static void main(String[] args) {
-        args[0] = System.getProperty("user.dir") + args[0];
-        args[1] = System.getProperty("user.dir") + args[1];
-        args[2] = System.getProperty("user.dir") + args[2];
+        if (args[0].substring(0, 4).equals("\\src")) args[0] = System.getProperty("user.dir") + args[0];
+        if (args[1].substring(0, 4).equals("\\src")) args[1] = System.getProperty("user.dir") + args[1];
+        if (args[2].substring(0, 4).equals("\\src")) args[2] = System.getProperty("user.dir") + args[2];
         try {
             Initializer.initialize(args[0], args[1], args[2]);
             if (ElementEffectivity.poolEmpty() || Move.poolEmpty() || Monster.poolEmpty()) {
