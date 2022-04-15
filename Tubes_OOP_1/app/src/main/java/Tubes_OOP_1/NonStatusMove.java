@@ -16,6 +16,11 @@ public class NonStatusMove extends Move implements Actionable {
         super(id, moveType, name, elementType, accuracy, priority, ammunition, target);
         this.basePower = basePower;
     }
+
+    public NonStatusMove(NonStatusMove move) {
+        super(move);
+        this.basePower = move.basePower.doubleValue();
+    }
     
     public Double getBasePower() {
         return this.basePower;
@@ -27,7 +32,7 @@ public class NonStatusMove extends Move implements Actionable {
         for (ElementType elem : target.getElementTypes()) {
             elemEff = elemEff * (double) ElementEffectivity.getEffectivity(this.getElementType(), elem);
         }
-        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getAttack()/target.getCurStats().getDefense()) + 2) * (0.85 + (1 - 0.85 * (new Random().nextDouble()))) * elemEff;
+        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getAttack()/target.getCurStats().getDefense()) + 2) * (0.85 + (1 - 0.85 * (new SplittableRandom().nextDouble()))) * elemEff;
         Double dmg;
         if (source.getStatusCondition() != null)  dmg = (source.getStatusCondition().equals(StatusCondition.BURN)) ? (Math.floor(rawDmg)/2):(Math.floor(rawDmg));
         else dmg = (Math.floor(rawDmg));
@@ -42,7 +47,7 @@ public class NonStatusMove extends Move implements Actionable {
         for (ElementType elem : target.getElementTypes()) {
             elemEff = elemEff * (double) ElementEffectivity.getEffectivity(this.getElementType(), elem);
         }
-        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getSpecialAttack()/target.getCurStats().getSpecialDefense()) + 2) * (0.85 + (1 - 0.85 * (new Random().nextDouble()))) * elemEff;
+        Double rawDmg = (this.getBasePower() * (double) (source.getCurStats().getSpecialAttack()/target.getCurStats().getSpecialDefense()) + 2) * (0.85 + (1 - 0.85 * (new SplittableRandom().nextDouble()))) * elemEff;
         Double dmg;
         if (source.getStatusCondition() != null)  dmg = (source.getStatusCondition().equals(StatusCondition.BURN)) ? (Math.floor(rawDmg)/2):(Math.floor(rawDmg));
         else dmg = (Math.floor(rawDmg));
@@ -61,26 +66,31 @@ public class NonStatusMove extends Move implements Actionable {
     }
 
     @Override
-    public void makeAMove(Trainer sourceMaster, Monster source, Monster target) {
+    public void makeAMove(Trainer source, Trainer target) {
         if (this.getTarget().equals(Target.OWN)) {
             target = source;
         }
-        boolean success = new SplittableRandom().nextInt(1, 101) <= this.getAccuracy();
-        if (success) {
-            System.out.printf("%s's %s successfully pulled off the %s move!\n", sourceMaster.getName(), source.getName(), this.getName());
-            if (!this.getName().equals("Default")) {
-                if (this.getMoveType().equals(MoveType.NORMAL)) {
-                    normalMove(source, target);
-                } else if (this.getMoveType().equals(MoveType.SPECIAL)) {
-                    specialMove(source, target);
+        if (source.getCurMonster().getCurStats().getSkipTurn() <= 0) {
+            boolean success = new SplittableRandom().nextInt(1, 101) <= this.getAccuracy();
+            if (success) {
+                System.out.printf("%s's %s successfully pulled off the %s move!\n", source.getName(), source.getCurMonster().getName(), this.getName());
+                if (!this.getName().equals("Default")) {
+                    if (this.getMoveType().equals(MoveType.NORMAL)) {
+                        normalMove(source.getCurMonster(), target.getCurMonster());
+                    } else if (this.getMoveType().equals(MoveType.SPECIAL)) {
+                        specialMove(source.getCurMonster(), target.getCurMonster());
+                    }
+                    this.decreaseAmmo();
+                } else {
+                    defaultMove(source.getCurMonster(), target.getCurMonster());
                 }
-                this.decreaseAmmo();
-            } else {
-                defaultMove(source, target);
+            }
+            else {
+                System.out.printf("%s's %s didn't manage to pull off the %s move...\n", source.getName(), source.getCurMonster().getName(), this.getName());
             }
         }
         else {
-            System.out.printf("%s's %s didn't manage to pull off the %s move...\n", sourceMaster.getName(), source.getName(), this.getName());
+            System.out.printf("%s's %s is is unable to move for some reason\n", source.getName(), source.getCurMonster().getName());
         }
     }
     

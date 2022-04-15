@@ -1,10 +1,13 @@
 package Tubes_OOP_1;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import Tubes_OOP_1.util.Initializer;
 
 public class Main {
     public static void main(String[] args) {
+        args[0] = System.getProperty("user.dir") + args[0];
+        args[1] = System.getProperty("user.dir") + args[1];
+        args[2] = System.getProperty("user.dir") + args[2];
         try {
             Initializer.initialize(args[0], args[1], args[2]);
             if (ElementEffectivity.poolEmpty() || Move.poolEmpty() || Monster.poolEmpty()) {
@@ -31,7 +34,15 @@ public class Main {
                     Scanner console = new Scanner(System.in);
                     gm.game(console);
                 } else if (opt == 2) {
-                    System.out.println("This is where the rule of the game is displayed!");
+                    String path = System.getProperty("user.dir") + "\\src\\main\\java\\resources\\gameRule.txt";
+                    File rule = new File(path);
+                    Scanner fileReader = new Scanner(rule);
+                    System.out.println("");
+                    while (fileReader.hasNextLine()) {
+                        System.out.println(fileReader.nextLine());
+                    }
+                    System.out.println("");
+                    fileReader.close();
                 } else if (opt == 3) {
                     end = true;
                 } else {
@@ -40,8 +51,15 @@ public class Main {
             } catch (IndexOutOfBoundsException e) {
                 System.err.println(e);
                 e.printStackTrace();
+            } catch (NumberFormatException e) {
+                System.err.println(e);
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                System.err.println(e);
+                e.printStackTrace();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.err.println(e);
+                e.printStackTrace();
             }
         }
         scanner.close();

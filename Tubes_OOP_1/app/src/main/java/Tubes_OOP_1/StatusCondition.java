@@ -71,6 +71,7 @@ public enum StatusCondition {
                 double dmg = Math.floor((double) target.getStats().getHealth()/8);
                 Double finalHealth = (target.getCurStats().getHealth() - dmg) < 0 ? 0 : (target.getCurStats().getHealth() - dmg);
                 target.getCurStats().setHealth(finalHealth);
+                System.out.printf("receiving %.1f damage!\nHealth is now %.1f", dmg, finalHealth);
             }
         }
     }
@@ -82,6 +83,7 @@ public enum StatusCondition {
                 double dmg = Math.floor((double) target.getStats().getHealth()/16);
                 Double finalHealth = (target.getCurStats().getHealth() - dmg) < 0 ? 0 : (target.getCurStats().getHealth() - dmg);
                 target.getCurStats().setHealth(finalHealth);
+                System.out.printf("receiving %.1f damage!\nHealth is now %.1f", dmg, finalHealth);
             }
         }
     }

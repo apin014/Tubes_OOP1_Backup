@@ -1,0 +1,21 @@
+| Welcome to Monster Saku! |
+
+This is a CLI-based game involving two monster Trainers,
+THAT IS YOU, PLAYER!
+that compete to-the-death utilizing 6 each (12 in to total) randomly selected monsters from an established pool of monsters.
+
+| How to Play? |
+
+Whenever you see a menu of options laid out to you, such as:
+
+[1] Option 1
+[2] Option 2
+...
+[XX] Option YY
+
+Just input the number corresponding to the option that you want to select on the ('>>') prompt.
+The game will then take that input and translate it to the action that each option represents.
+
+Have fun! And remember, whenever a monster of yours die, 
+
+THEY ARE DEAD FOREVER...

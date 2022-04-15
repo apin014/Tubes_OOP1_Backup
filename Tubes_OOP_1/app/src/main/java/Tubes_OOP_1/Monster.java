@@ -10,6 +10,7 @@ import java.util.*;
  * @author Davin
  */
 public class Monster {
+    private int id;
     private String name;
     private List<ElementType> elementTypes;
     private Stats baseStats;
@@ -22,6 +23,7 @@ public class Monster {
     }
 
     public Monster(String[] array) {
+        this.id = Integer.parseInt(array[0]);
         this.name = array[1];
         this.elementTypes = new ArrayList<>();
         for (String element : array[2].split(",")) {
@@ -39,11 +41,33 @@ public class Monster {
         }
     }
 
+    public Monster (Monster monster) {
+        this.id = monster.id;
+        this.name = monster.name;
+        this.elementTypes = new ArrayList<>(monster.elementTypes);
+        this.baseStats = monster.baseStats;
+        this.curStats = new Stats(monster.curStats.getHealth().doubleValue(), monster.curStats.getAttack().doubleValue(), monster.curStats.getDefense().doubleValue(), monster.curStats.getSpecialAttack().doubleValue(), monster.curStats.getSpecialDefense().doubleValue(), monster.curStats.getSpeed().doubleValue());
+        this.moves = new ArrayList<>();
+        for (Move move : monster.moves) {
+            if (move.getMoveType().equals(MoveType.STATUS)) {
+                this.moves.add(new StatusMove((StatusMove) move));
+            } else {
+                this.moves.add(new NonStatusMove((NonStatusMove) move));
+            }
+        }
+        if (monster.statusCond != null) this.statusCond = StatusCondition.parse(monster.statusCond.toString());
+        else this.statusCond = null;
+    }
+
     public static void pool(List<String[]> config) {
         Monster.monsterPool.add(null);
         for (String[] array : config) {
             Monster.monsterPool.add(new Monster(array));
         }
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {
@@ -74,11 +98,15 @@ public class Monster {
         this.statusCond = statusCond;
     }
 
+    public static List<Monster> getPool() {
+        return Monster.monsterPool;
+    }
+
     public static boolean poolEmpty() {
         return (Monster.monsterPool.isEmpty());
     }
     public static Monster getFromPool(int id) {
-        return Monster.monsterPool.get(id);
+        return new Monster(Monster.monsterPool.get(id));
     }
 
     public static int getPoolSize() {

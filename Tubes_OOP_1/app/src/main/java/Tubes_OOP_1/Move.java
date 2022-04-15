@@ -48,6 +48,18 @@ public abstract class Move {
         this.ammunition = ammunition;
         this.target = target;
     }
+
+    public Move (Move move) {
+        this.id = move.id;
+        this.moveType = move.moveType;
+        this.name = move.name;
+        this.elementType = move.elementType;
+        this.accuracy = move.accuracy.intValue();
+        this.priority = move.priority.intValue();
+        this.ammunition = move.ammunition.intValue();
+        this.target = move.target;
+    }
+
     public static void pool(List<String[]> config) {
         for (String[] array : config) {
             int id = Integer.parseInt(array[0]);
@@ -114,6 +126,6 @@ public abstract class Move {
         return Move.movePool.get(id);
     }
 
-    public abstract void makeAMove(Trainer sourceMaster, Monster source, Monster target);
+    public abstract void makeAMove(Trainer  source, Trainer target);
     public abstract void printMove();
 }

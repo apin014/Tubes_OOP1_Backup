@@ -23,6 +23,8 @@ public class GameMaster {
         String name2 = console.next();
         Trainer player1 = new Trainer(name1);
         Trainer player2 = new Trainer(name2);
+        SortedSet<Integer> idSet = new TreeSet<>();
+        createMonsterInfo(player1, player2, idSet);
         System.out.printf("Game starting with %s as PLAYER 1 and %s as PLAYER 2\n", player1.getName(), player2.getName());
         System.out.printf("%s's starting monster is %s\n", player1.getName(), player1.getCurMonster().getName());
         System.out.printf("%s's starting monster is %s\n", player2.getName(), player2.getCurMonster().getName());
@@ -32,11 +34,11 @@ public class GameMaster {
             player1.setSwitch(-1);
             player2.setMove(-1);
             player2.setSwitch(-1);
-            turn(console, player1, gameEnd);
+            turn(console, player1, player2, gameEnd, idSet);
             if (gameEnd.hasEnded()) {
                 break;
             } else {
-                turn(console, player2, gameEnd);
+                turn(console, player2, player1, gameEnd, idSet);
                 if (gameEnd.hasEnded()) {
                     break;
                 }
@@ -46,132 +48,76 @@ public class GameMaster {
                 if (player2.getSwitch() != -1) {
                     player2.switchMonster(player2.getSwitch());
                 } else {
-                    if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                        player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                    } else {
-                        System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                    }
+                    player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                     deathCheck(player1, player2, console, gameEnd);
                 }
             } else {
                 if (player2.getSwitch() != -1) {
                     player2.switchMonster(player2.getSwitch());
-                    if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                        player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                    } else {
-                        System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                    }
+                    player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                     deathCheck(player2, player1, console, gameEnd);
                 } else {
                     Move play1 = player1.getCurMonster().getMoves().get(player1.getMove());
                     Move play2 = player2.getCurMonster().getMoves().get(player2.getMove());
                     if (play1.getPriority() < play2.getPriority()) {
-                        if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                            player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                        } else {
-                            System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                        }
+                        player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                         if (isDead(player2.getCurMonster())) {
                             deathCheck(player2, player1, console, gameEnd);
                         } else {
-                            if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                            } else {
-                                System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                            }
+                            player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                             if (isDead(player1.getCurMonster())) {
                                 deathCheck(player1, player2, console, gameEnd);
                             }
                         }
                     } else if (play1.getPriority() > play2.getPriority()) {
-                        if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                            player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                        } else {
-                            System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                        }
+                        player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                         if (isDead(player1.getCurMonster())) {
                             deathCheck(player1, player2, console, gameEnd);
                         } else {
-                            if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                            } else {
-                                System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                            }
+                            player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                             if (isDead(player2.getCurMonster())) {
                                 deathCheck(player2, player1, console, gameEnd);
                             }
                         }
                     } else {
                         if (player1.getCurMonster().getCurStats().getSpeed() > player2.getCurMonster().getCurStats().getSpeed()) {
-                            if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                            } else {
-                                System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                            }
+                            player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                             if (isDead(player2.getCurMonster())) {
                                 deathCheck(player2, player1, console, gameEnd);
                             } else {
-                                if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                    player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                                } else {
-                                    System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                                }
+                                player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                                 if (isDead(player1.getCurMonster())) {
                                     deathCheck(player1, player2, console, gameEnd);
                                 }
                             }
                         } else if (player1.getCurMonster().getCurStats().getSpeed() < player2.getCurMonster().getCurStats().getSpeed()) {
-                            if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                            } else {
-                                System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                            }
+                            player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                             if (isDead(player1.getCurMonster())) {
                                 deathCheck(player1, player2, console, gameEnd);
                             } else {
-                                if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                    player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                                } else {
-                                    System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                                }
+                                player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                                 if (isDead(player2.getCurMonster())) {
                                     deathCheck(player2, player1, console, gameEnd);
                                 }
                             }
                         } else {
-                            int r = new Random().nextInt(2);
+                            int r = new SplittableRandom().nextInt(0, 2);
                             if (r == 0) {
-                                if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                    player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                                } else {
-                                    System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                                }
+                                player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                                 if (isDead(player2.getCurMonster())) {
                                     deathCheck(player2, player1, console, gameEnd);
                                 } else {
-                                    if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                        player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                                    } else {
-                                        System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                                    }
+                                    player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                                     if (isDead(player1.getCurMonster())) {
                                         deathCheck(player1, player2, console, gameEnd);
                                     }
                                 }
                             } else {
-                                if (player2.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                    player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player2.getCurMonster(), player1.getCurMonster());
-                                } else {
-                                    System.out.printf("%s's is unable to move for some reason\n", player2.getName(), player2.getCurMonster().getName());
-                                }
+                                player2.getCurMonster().getMoves().get(player2.getMove()).makeAMove(player2, player1);
                                 if (isDead(player1.getCurMonster())) {
                                     deathCheck(player1, player2, console, gameEnd);
                                 } else {
-                                    if (player1.getCurMonster().getCurStats().getSkipTurn() == 0) {
-                                        player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player1.getCurMonster(), player2.getCurMonster());
-                                    } else {
-                                        System.out.printf("%s's is unable to move for some reason\n", player1.getName(), player1.getCurMonster().getName());
-                                    }
+                                    player1.getCurMonster().getMoves().get(player1.getMove()).makeAMove(player1, player2);
                                     if (isDead(player2.getCurMonster())) {
                                         deathCheck(player2, player1, console, gameEnd);
                                     }
@@ -197,7 +143,7 @@ public class GameMaster {
         }
     }
 
-    public void turn(Scanner console, Trainer player, Stopper endStatus) {
+    public void turn(Scanner console, Trainer player, Trainer playerSec, Stopper endStatus, SortedSet<Integer> idSet) {
         boolean endTurn = false;
         while (!endTurn) {
             try {
@@ -233,7 +179,7 @@ public class GameMaster {
                         }
                         System.out.println("[-1] Cancel");
                         System.out.print(">> ");
-                        player.setSwitch(console.nextInt());;
+                        player.setSwitch(console.nextInt());
                         if (player.getSwitch() != -1) {
                             if  (player.getSwitch() >= 0 && player.getSwitch() < player.getMonsters().size()) endTurn = true;
                             else { System.out.println("Selection not valid!"); endTurn = false; }
@@ -244,9 +190,9 @@ public class GameMaster {
                         System.out.printf("%s has no other monster left!\n", player.getName());
                     }
                 } else if (opt == 3) {
-                    System.out.println("Monsters Info!");
+                    printMonsterInfo(idSet);
                 } else if (opt == 4) {
-                    System.out.println("Game Info!");
+                    printGameInfo(player, playerSec);
                 } else if (opt == 5) {
                     endStatus.setEnd(true);
                     endTurn = true;
@@ -255,15 +201,10 @@ public class GameMaster {
             catch (IndexOutOfBoundsException e) {
                 System.err.println(e);
                 e.printStackTrace();
+            } catch (NumberFormatException e) {
+                System.out.println("Input must be a number!");
             }
         }
-    }
-
-    public void statusCheck(Monster monster) {
-        StatusCondition.burn(monster);
-        StatusCondition.poison(monster);
-        StatusCondition.sleep(monster);
-        StatusCondition.paralyze(monster);
     }
 
     public void deathCheck(Trainer player1, Trainer player2, Scanner console, Stopper endStatus) {
@@ -332,5 +273,43 @@ public class GameMaster {
 
     public boolean isDead(Monster monster) {
         return monster.getCurStats().getHealth() == 0;
+    }
+
+    public void createMonsterInfo(Trainer player1, Trainer player2, SortedSet<Integer> idSet) {
+        for (Monster monster : player1.getMonsters()) {
+            idSet.add(monster.getId());
+        }
+        for (Monster monster : player2.getMonsters()) {
+            idSet.add(monster.getId());
+        }
+    }
+
+    public void printMonsterInfo(SortedSet<Integer> idSet) {
+        System.out.println("Monsters present during this game are:");
+        for (Integer id : idSet) {
+            for (Monster monster : Monster.getPool()) {
+                if (monster != null) {
+                    if (monster.getId() == id) {
+                        System.out.printf("@ %s ", monster.getName());
+                        monster.getStats().printStats();
+                    }
+                }
+            }
+        }
+    }
+    
+    public void printGameInfo(Trainer player1, Trainer player2) {
+        System.out.printf("It is now %s's turn\n%s is partnering with %s as their monster in this turn\nCurrent stats: ", player1.getName(), player1.getName(), player1.getCurMonster().getName());
+        player1.getCurMonster().getCurStats().printStats();
+        System.out.printf("Monster(s) still in %s's deck:\n", player1.getName());
+        for (Monster monster : player1.getMonsters()) {
+            if (monster.getCurStats().getHealth() > 0) {
+                System.out.printf("@ %s ", monster.getName());
+                monster.getCurStats().printStats();
+            }
+        }
+        if (player2.getMove() != -1) {
+            System.out.printf("%s has taken their turn, choosing their %s to perform %s move", player2.getName(), player2.getCurMonster().getName(), player2.getCurMonster().getMoves().get(player2.getMove()).getName());
+        }
     }
 } 

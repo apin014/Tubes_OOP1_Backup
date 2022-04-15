@@ -12,6 +12,15 @@ public class StatusMove extends Move {
         this.statsEffects = statsEffects;
     }
 
+    public StatusMove (StatusMove move) {
+        super(move);
+        this.statusCond = move.statusCond;
+        this.statsEffects = new Double[move.statsEffects.length];
+        for (int i = 0; i < move.statsEffects.length; i++) {
+            this.statsEffects[i] = move.statsEffects[i].doubleValue();
+        }
+    }
+
     public StatusCondition getStatusCondition() {
         return this.statusCond;
     }
@@ -21,34 +30,39 @@ public class StatusMove extends Move {
     }
 
     @Override
-    public void makeAMove(Trainer sourceMaster, Monster source, Monster target) {
+    public void makeAMove(Trainer  source, Trainer target) {
         if (this.getTarget().equals(Target.OWN)) {
             target = source;
         }
-        boolean success = new SplittableRandom().nextInt(1, 101) <= this.getAccuracy();
-        if (success) {
-            System.out.printf("%s's %s successfully pulled off the %s move!\n", sourceMaster.getName(), source.getName(), this.getName());
-            if (this.getStatusCondition() != null) {
-                if (this.getStatusCondition().equals(StatusCondition.BURN)) {
-                    StatusCondition.afflict(target, StatusCondition.BURN);
-                } else if (this.getStatusCondition().equals(StatusCondition.POISON)) {
-                    StatusCondition.afflict(target, StatusCondition.POISON);
-                } else if (this.getStatusCondition().equals(StatusCondition.SLEEP)) {
-                    StatusCondition.afflict(target, StatusCondition.SLEEP);
-                } else if (this.getStatusCondition().equals(StatusCondition.PARALYZE)) {
-                    StatusCondition.afflict(target, StatusCondition.PARALYZE);
-                } 
-            } else {
-                target.getCurStats().setHealth(target.getStats().getHealth() * (1 + this.statsEffects[0]));
-                target.getCurStats().setAttack(target.getCurStats().getAttack() + this.statsEffects[1]);
-                target.getCurStats().setDefense(target.getCurStats().getDefense() + this.statsEffects[2]);
-                target.getCurStats().setSpecialAttack(target.getCurStats().getSpecialAttack() + this.statsEffects[3]);
-                target.getCurStats().setSpecialDefense(target.getCurStats().getSpecialDefense() + this.statsEffects[4]);
-                target.getCurStats().setSpeed(target.getCurStats().getSpeed() + this.statsEffects[5]);
+        if (source.getCurMonster().getCurStats().getSkipTurn() <= 0) {
+            boolean success = new SplittableRandom().nextInt(1, 101) <= this.getAccuracy();
+            if (success) {
+                System.out.printf("%s's %s successfully pulled off the %s move!\n", source.getName(), source.getCurMonster().getName(), this.getName());
+                if (this.getStatusCondition() != null) {
+                    if (this.getStatusCondition().equals(StatusCondition.BURN)) {
+                        StatusCondition.afflict(target.getCurMonster(), StatusCondition.BURN);
+                    } else if (this.getStatusCondition().equals(StatusCondition.POISON)) {
+                        StatusCondition.afflict(target.getCurMonster(), StatusCondition.POISON);
+                    } else if (this.getStatusCondition().equals(StatusCondition.SLEEP)) {
+                        StatusCondition.afflict(target.getCurMonster(), StatusCondition.SLEEP);
+                    } else if (this.getStatusCondition().equals(StatusCondition.PARALYZE)) {
+                        StatusCondition.afflict(target.getCurMonster(), StatusCondition.PARALYZE);
+                    } 
+                } else {
+                    target.getCurMonster().getCurStats().setHealth(target.getCurMonster().getStats().getHealth() * (1 + ((double) this.statsEffects[0]/100)));
+                    target.getCurMonster().getCurStats().setAttack(target.getCurMonster().getCurStats().getAttack() + this.statsEffects[1]);
+                    target.getCurMonster().getCurStats().setDefense(target.getCurMonster().getCurStats().getDefense() + this.statsEffects[2]);
+                    target.getCurMonster().getCurStats().setSpecialAttack(target.getCurMonster().getCurStats().getSpecialAttack() + this.statsEffects[3]);
+                    target.getCurMonster().getCurStats().setSpecialDefense(target.getCurMonster().getCurStats().getSpecialDefense() + this.statsEffects[4]);
+                    target.getCurMonster().getCurStats().setSpeed(target.getCurMonster().getCurStats().getSpeed() + this.statsEffects[5]);
+                }
+            }
+            else {
+                System.out.printf("%s's %s didn't manage to pull off the %s move...\n", source.getName(), source.getCurMonster().getName(), this.getName());
             }
         }
         else {
-            System.out.printf("%s's %s didn't manage to pull off the %s move...\n", sourceMaster.getName(), source.getName(), this.getName());
+            System.out.printf("%s's %s is is unable to move for some reason\n", source.getName(), source.getCurMonster().getName());
         }
     }
 
