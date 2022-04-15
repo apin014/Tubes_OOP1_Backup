@@ -57,6 +57,65 @@ public class StatusMove extends Move {
                     target.getCurMonster().getCurStats().setSpecialAttack(Math.floor(target.getCurMonster().getCurStats().getSpecialAttack() * Stats.convertToBuff(this.statsEffects[3])));
                     target.getCurMonster().getCurStats().setSpecialDefense(Math.floor(target.getCurMonster().getCurStats().getSpecialDefense() * Stats.convertToBuff(this.statsEffects[4])));
                     target.getCurMonster().getCurStats().setSpeed(Math.floor(target.getCurMonster().getCurStats().getSpeed() * Stats.convertToBuff(this.statsEffects[5])));
+                    if (target.equals(source)) {
+                        if (healthIncrease > 0) {
+                            System.out.printf("Your %s's health is restored by %.1f, its health is now %.1f\n", target.getCurMonster().getName(), healthIncrease, target.getCurMonster().getCurStats().getHealth());
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[1]) > 1) {
+                            System.out.printf("Your %s's attack is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[1]));
+                        } else if (Stats.convertToBuff(this.statsEffects[1]) < 1) {
+                            System.out.printf("Your %s's attack is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[1]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[2]) > 1) {
+                            System.out.printf("Your %s's defense is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[2]));
+                        } else if (Stats.convertToBuff(this.statsEffects[2]) < 1) {
+                            System.out.printf("Your %s's defense is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[2]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[3]) > 1) {
+                            System.out.printf("Your %s's special attack is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[3]));
+                        } else if (Stats.convertToBuff(this.statsEffects[3]) < 1) {
+                            System.out.printf("Your %s's special attack is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[3]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[4]) > 1) {
+                            System.out.printf("Your %s's special defense is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[4]));
+                        } else if (Stats.convertToBuff(this.statsEffects[4]) < 1) {
+                            System.out.printf("Your %s's special defense is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[4]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[5]) > 1) {
+                            System.out.printf("Your %s's speed is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[5]));
+                        } else if (Stats.convertToBuff(this.statsEffects[5]) < 1) {
+                            System.out.printf("Your %s's speed is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[5]));
+                        }
+                    } else {
+                        if (healthIncrease > 0) {
+                            System.out.printf("Opponent's %s's health is restored by %.1f, its health is now %.1f\n", target.getCurMonster().getName(), healthIncrease, target.getCurMonster().getCurStats().getHealth());
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[1]) > 1) {
+                            System.out.printf("Opponent's %s's attack is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[1]));
+                        } else if (Stats.convertToBuff(this.statsEffects[1]) < 1) {
+                            System.out.printf("Opponent's %s's attack is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[1]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[2]) > 1) {
+                            System.out.printf("Opponent's %s's defense is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[2]));
+                        } else if (Stats.convertToBuff(this.statsEffects[2]) < 1) {
+                            System.out.printf("Opponent's %s's defense is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[2]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[3]) > 1) {
+                            System.out.printf("Opponent's %s's special attack is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[3]));
+                        } else if (Stats.convertToBuff(this.statsEffects[3]) < 1) {
+                            System.out.printf("Opponent's %s's special attack is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[3]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[4]) > 1) {
+                            System.out.printf("Opponent's %s's special defense is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[4]));
+                        } else if (Stats.convertToBuff(this.statsEffects[4]) < 1) {
+                            System.out.printf("Opponent's %s's special defense is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[4]));
+                        }
+                        if (Stats.convertToBuff(this.statsEffects[5]) > 1) {
+                            System.out.printf("Opponent's %s's speed is increased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[5]));
+                        } else if (Stats.convertToBuff(this.statsEffects[5]) < 1) {
+                            System.out.printf("Opponent's %s's speed is decreased by %.1f\n", target.getCurMonster().getName(), Stats.convertToBuff(this.statsEffects[5]));
+                        }
+                    }
                 }
             }
             else {
@@ -71,7 +130,7 @@ public class StatusMove extends Move {
     @Override
     public void printMove() {
         if (this.statusCond == null) {
-            System.out.printf("%s (%d left) | Type: %s | Element: %s | Accuracy: %d | Priority: %d | Target: %s | Stats Multiplier: <Health: %f> <Attack: %f> <Defense: %f> <%Special Attack: %f> <Special Defense: %f> <Speed: %f>\n", this.getName(), this.getAmmunition(), this.getMoveType().name(), this.getElementType().name(), this.getAccuracy(), this.getPriority(), this.getTarget().name(), (double) this.statsEffects[0]/100, Stats.convertToBuff(this.statsEffects[1]), Stats.convertToBuff(this.statsEffects[2]), Stats.convertToBuff(this.statsEffects[3]), Stats.convertToBuff(this.statsEffects[4]), Stats.convertToBuff(this.statsEffects[5]));
+            System.out.printf("%s (%d left) | Type: %s | Element: %s | Accuracy: %d | Priority: %d | Target: %s | Stats Effects: <Health: +%.1f of Max HP> <Attack: *%.1f> <Defense: *%.1f> <Special Attack: *%.1f> <Special Defense: *%.1f> <Speed: *%.1f>\n", this.getName(), this.getAmmunition(), this.getMoveType().name(), this.getElementType().name(), this.getAccuracy(), this.getPriority(), this.getTarget().name(), (double) this.statsEffects[0]/100, Stats.convertToBuff(this.statsEffects[1]), Stats.convertToBuff(this.statsEffects[2]), Stats.convertToBuff(this.statsEffects[3]), Stats.convertToBuff(this.statsEffects[4]), Stats.convertToBuff(this.statsEffects[5]));
         }
         else {
             System.out.printf("%s (%d left) | Type: %s | Element: %s | Accuracy: %d | Priority: %d | Target: %s | Status Condition: %s\n", this.getName(), this.getAmmunition(), this.getMoveType().name(), this.getElementType().name(), this.getAccuracy(), this.getPriority(), this.getTarget().name(), this.getStatusCondition().name());

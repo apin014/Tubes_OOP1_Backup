@@ -26,6 +26,7 @@ public class GameMaster {
         SortedSet<Integer> idSet = new TreeSet<>();
         createMonsterInfo(player1, player2, idSet);
         System.out.printf("Game starting with %s as PLAYER 1 and %s as PLAYER 2\n", player1.getName(), player2.getName());
+        System.out.println("");
         System.out.printf("%s's starting monster is %s\n", player1.getName(), player1.getCurMonster().getName());
         System.out.printf("Monsters in %s's deck are:\n", player1.getName());
         for (Monster monster : player1.getMonsters()) {
@@ -213,6 +214,8 @@ public class GameMaster {
                 e.printStackTrace();
             } catch (NumberFormatException e) {
                 System.out.println("Input must be a number!");
+            } catch (InputMismatchException e) {
+                System.out.println("Input doesn't match!");
             }
         }
     }
@@ -286,6 +289,8 @@ public class GameMaster {
     }
 
     public void createMonsterInfo(Trainer player1, Trainer player2, SortedSet<Integer> idSet) {
+        idSet.add(player1.getCurMonster().getId());
+        idSet.add(player2.getCurMonster().getId());
         for (Monster monster : player1.getMonsters()) {
             idSet.add(monster.getId());
         }
