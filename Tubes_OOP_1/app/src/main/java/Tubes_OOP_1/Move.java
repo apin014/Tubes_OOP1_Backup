@@ -51,9 +51,9 @@ public abstract class Move {
 
     public Move (Move move) {
         this.id = move.id;
-        this.moveType = move.moveType;
+        this.moveType = MoveType.parse(move.moveType.toString());
         this.name = move.name;
-        this.elementType = move.elementType;
+        this.elementType = ElementType.parse(move.elementType.toString());
         this.accuracy = move.accuracy.intValue();
         this.priority = move.priority.intValue();
         this.ammunition = move.ammunition.intValue();

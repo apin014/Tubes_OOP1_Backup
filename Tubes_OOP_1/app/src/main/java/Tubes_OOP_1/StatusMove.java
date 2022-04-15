@@ -14,7 +14,7 @@ public class StatusMove extends Move {
 
     public StatusMove (StatusMove move) {
         super(move);
-        this.statusCond = move.statusCond;
+        this.statusCond = (move.statusCond != null) ? StatusCondition.parse(move.statusCond.toString()) : null;
         this.statsEffects = new Double[move.statsEffects.length];
         for (int i = 0; i < move.statsEffects.length; i++) {
             this.statsEffects[i] = move.statsEffects[i].doubleValue();

@@ -44,7 +44,10 @@ public class Monster {
     public Monster (Monster monster) {
         this.id = monster.id;
         this.name = monster.name;
-        this.elementTypes = new ArrayList<>(monster.elementTypes);
+        this.elementTypes = new ArrayList<>();
+        for (ElementType element : monster.elementTypes) {
+            this.elementTypes.add(ElementType.parse(element.toString()));
+        }
         this.baseStats = monster.baseStats;
         this.curStats = new Stats(monster.curStats.getHealth().doubleValue(), monster.curStats.getAttack().doubleValue(), monster.curStats.getDefense().doubleValue(), monster.curStats.getSpecialAttack().doubleValue(), monster.curStats.getSpecialDefense().doubleValue(), monster.curStats.getSpeed().doubleValue());
         this.moves = new ArrayList<>();
